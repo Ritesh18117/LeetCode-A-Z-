@@ -1,0 +1,48 @@
+class Solution {
+public:
+    bool solve(vector<vector<char>> &board){
+        for(int i = 0;i < board.size();i++){
+            for(int j = 0;j < board.size();j++){
+                // Above 2 loops are for looping through the matrix 
+                
+                if(board[i][j] == '.'){ // if the board is empty 
+                    
+                    for(int c = '1';c <= '9';c++){ // iterate through 1 to 9
+                        
+                        if(isValid(board,i,j,c)){ // and check if it is valid to put the number 
+                            board[i][j] = c; // put the number (pick)
+                            
+                            // check if the number is in right place meand returns true return (if we get the anser return do not need to procede further [thats why if condition])
+                            if(solve(board) == true) 
+                                return true;
+                            else
+                                board[i][j] = '.';  // if not true backtrack (not pick)
+                        }
+                    }
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    bool isValid(vector<vector<char>> &board, int row, int col, char c){
+        for(int i = 0;i < 9;i++){
+            // For checking rows
+            if(board[i][col] == c)
+                return false;
+
+            // for checking columns
+            if(board[row][i] == c)
+                return false;
+            
+            // for checking each 3*3 Blocks
+            if(board[3 * (row/3) + (i/3) ][ 3 * (col/3) + i % 3 ] == c)
+                return false;
+        }
+        return true;
+    }
+    void solveSudoku(vector<vector<char>>& board) {
+        solve(board);
+    }
+};
