@@ -1,0 +1,57 @@
+class Solution {
+public:
+    vector<vector<string>> sol;
+
+    bool isSafe(vector<string> &board,  int row, int col){
+
+        // Check for Column 
+        for(int i=0;i<row;i++){
+            if(board[i][col] == 'Q')
+                return false;
+        }
+
+        int x=row;
+        int y=col;
+        // for left diagonal
+        while(x>=0 && y>=0){
+            if(board[x][y] == 'Q')
+                return false;
+            x--;
+            y--;
+        }
+
+        x=row;
+        y=col;
+        // For right diagonal
+        while(x>=0 && y<board.size()){
+            if(board[x][y] == 'Q')
+                return false;
+            x--;
+            y++;
+        }
+        return true;
+    }
+
+    void nQueen(vector<string> &board, int row){
+        if(row == board.size()){
+            sol.push_back(board);
+            return;
+        }
+        
+        // For Every Row
+        for(int col=0;col<board.size();col++){
+            if(isSafe(board,row,col)){
+                board[row][col] = 'Q';
+                nQueen(board,row+1);
+                board[row][col] = '.';
+            }
+        }
+        return;
+    }
+
+    vector<vector<string>> solveNQueens(int n) {
+        vector<string> board(n, string(n, '.'));
+        nQueen(board,0);
+        return sol;
+    }
+};
