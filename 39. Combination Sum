@@ -1,0 +1,27 @@
+class Solution {
+public:
+    void sub(int i,vector<int> &nums,vector<int> &ds,vector<vector<int>> &ans,int target){
+        // Work on the technique on decreasing the target value until target becomes 0
+        if(i == nums.size()){
+            // if target is 0 then push the ds into the answer array
+            if(target == 0){
+                ans.push_back(ds);
+            }
+            return;
+        }
+        // For element which is repeating
+        if(nums[i] <= target){ // Condition statisfies as target value is decreasing in every iteration 
+            ds.push_back(nums[i]);
+            sub(i,nums,ds,ans,target-nums[i]);
+            ds.pop_back();
+        }
+        sub(i+1,nums,ds,ans,target);
+    }
+
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        vector<vector<int> > ans;
+        vector<int> ds;
+        sub(0,candidates,ds,ans,target);
+        return ans;
+    }
+};
