@@ -1,0 +1,28 @@
+class Solution {
+public:
+
+    void findCombinationSum(int idx,vector<int> &nums,vector<vector<int>> &ans,vector<int> &ds,int target){
+        // Using technique of decreasing the target value (we are getting sorted nums)
+        if(target == 0){
+            ans.push_back(ds);
+            return;
+        }
+        for(int i = idx; i < nums.size();i++){
+            if(i > idx && nums[i] == nums[i-1]) // if previous element ans present is same don't pick it
+                continue;
+            if(nums[i] > target) // if present element is greater than target value then break
+                break;
+            ds.push_back(nums[i]);
+            findCombinationSum(i+1,nums,ans,ds,target - nums[i]); // decreasing target value (aim to make it 0)
+            ds.pop_back();
+        }   
+    }
+
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        sort(candidates.begin(),candidates.end()); // As subset so sorting not effect
+        vector<vector<int>> ans;
+        vector<int> ds;
+        findCombinationSum(0,candidates,ans,ds,target);
+        return ans;
+    }
+};
