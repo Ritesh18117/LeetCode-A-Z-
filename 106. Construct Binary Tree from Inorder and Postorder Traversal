@@ -1,0 +1,44 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+
+    TreeNode* buildTreePostIn(vector<int> &inorder,int is,int ie,
+                              vector<int> &postorder,int ps,int pe,
+                              map<int,int> &mp){
+        
+        if(ps > pe || is > ie) // if start is greater than end return NULL
+            return NULL;
+        
+        TreeNode *root = new TreeNode(postorder[pe]); // finding root since root is always the last element of post order;
+
+        // finding that root element in inorder as all the element left of it will be of leftsub tree and all the element of right of inorder root is of rightsub tree
+        int inRoot = mp[postorder[pe]]; // haves the index value of root in inorder vector
+        int numLeft = inRoot - is; 
+
+        // Recursive call for the same left portion of tree 
+        root->left = buildTreePostIn(inorder,is,inRoot-1,postorder,ps,ps+numLeft-1,mp);
+        // Recursive call for the same right portion of tree 
+        root->right = buildTreePostIn(inorder,inRoot+1,ie,postorder,ps+numLeft,pe-1,mp);
+        return root;
+
+    }
+    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+        if(inorder.size() != postorder.size())
+            return NULL;
+        
+        map<int,int> mp; // stores element with its index number
+        for(int i = 0;i < inorder.size();i++)
+            mp[inorder[i]] = i;
+        return buildTreePostIn(inorder,0,inorder.size() - 1,postorder,0,postorder.size() - 1,mp);
+    }
+};
