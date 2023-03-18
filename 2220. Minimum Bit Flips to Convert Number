@@ -1,0 +1,14 @@
+class Solution {
+public:
+    int minBitFlips(int start, int goal) {
+        long long i = 0,value = (start^goal);
+        while (value){
+            value = value&(value-1);
+            i++;
+        }
+        return i;
+
+        // One liner
+        // return __builtin_popcount(start^goal);
+    }
+};
