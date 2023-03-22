@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int longestOnes(vector<int>& nums, int k) {
+        //In this we can use sliding window type
+        // iN which 1 window contains atmost k zeros (window constraints)
+        int i = 0, j = 0, ans = INT_MIN,zeroCount = 0;
+        while( j < nums.size()){
+            if(nums[j] == 0){
+                zeroCount++;
+            }
+            while(zeroCount > k){
+                if(nums[i] == 0)
+                    zeroCount--;
+                i++;
+            }
+            ans = max(ans,j-i+1);
+            j++;
+        }
+        return ans;
+    }
+};
