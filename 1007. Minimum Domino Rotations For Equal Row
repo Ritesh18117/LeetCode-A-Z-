@@ -1,0 +1,54 @@
+class Solution {
+public:
+    int minDominoRotations(vector<int>& tops, vector<int>& bottoms) {
+        unordered_map<int,int> mpTop,mpBottom;
+        for(int i = 0; i < tops.size();i++)
+            mpTop[tops[i]]++;
+        for(int i = 0; i < tops.size();i++)
+            mpBottom[bottoms[i]]++;
+        int maxTop = INT_MIN,maxBottom = INT_MIN,top,bottom,count = 0;
+        for(auto i : mpTop){
+           if(maxTop < i.second){
+               maxTop = i.second;
+               top = i.first;
+           }
+        }
+        for(auto i : mpBottom){
+            if(maxBottom < i.second){
+                maxBottom = i.second;
+                bottom = i.first;
+            }
+        }
+        cout << maxTop << " " << top<<endl;
+        cout << maxBottom << " " << bottom<<endl;
+        if(maxTop > maxBottom){
+            for(int i = 0;i < tops.size();i++){
+                if(tops[i] != top){
+                    int temp = tops[i];
+                    tops[i] = bottoms[i];
+                    bottoms[i] = tops[i];
+                    count++;
+                }
+            }
+            for(int i = 0; i < tops.size();i++){
+                if(tops[i] != top)
+                    return -1;
+            }
+        }
+        else{
+            for(int i = 0;i < bottoms.size();i++){
+                if(bottoms[i] != bottom){
+                    int temp = bottoms[i];
+                    bottoms[i] = tops[i];
+                    tops[i] = bottoms[i];
+                    count++;
+                }
+            }
+            for(int i = 0; i < bottoms.size();i++){
+                if(bottoms[i] != bottom)
+                    return -1;
+            }
+        }
+        return count;
+    }
+};
