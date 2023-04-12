@@ -1,0 +1,22 @@
+class Solution {
+public:
+    void sub(int openCount,int closeCount,string s,vector<string> &ans,int n){
+        if(openCount == n && closeCount == n){
+            ans.push_back(s);
+            return;
+        }
+        if(openCount < n)
+            sub(openCount+1, closeCount, s + "(", ans, n);
+        if(closeCount < openCount)
+            sub(openCount, closeCount+1, s + ")", ans, n);
+    }
+
+    vector<string> generateParenthesis(int n) {
+        string s = "";
+        int openCount = 0;
+        int closeCount = 0;
+        vector<string> ans;
+        sub(openCount,closeCount,s,ans,n);
+        return ans;
+    }
+};
