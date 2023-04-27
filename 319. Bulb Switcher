@@ -1,0 +1,8 @@
+class Solution {
+public:
+    int bulbSwitch(int n) {
+        long long c = 0;
+        for(long long i = 1;i <= n ;i++) if((long)i*i <= n) c++;
+        return c;
+    }
+};
