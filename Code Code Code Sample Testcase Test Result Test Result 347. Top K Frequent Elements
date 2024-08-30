@@ -1,0 +1,29 @@
+class Solution {
+    public int[] topKFrequent(int[] nums, int k) {
+        Map<Integer,Integer> map = new HashMap<>();
+
+        for(int i = 0;i < nums.length;i++){
+            if(map.containsKey(nums[i])){
+                map.put(nums[i],map.get(nums[i]) + 1);
+            } else{
+                map.put(nums[i],1);
+            }
+        }
+        int[] ans = new int[k];
+        while(k != 0){
+            Integer max = Integer.MIN_VALUE;
+            int value = -2;
+            for(Map.Entry<Integer,Integer> mp : map.entrySet()){
+                if(mp.getValue() > max){
+                    max = mp.getValue();
+                    value = mp.getKey();
+                }
+            }
+            ans[k-1] = value;
+            map.remove(value);
+            k--;
+        }
+
+        return ans;
+    }
+}
